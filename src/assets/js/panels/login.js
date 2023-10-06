@@ -14,8 +14,14 @@ class Login {
     async init(config) {
         this.config = config
         this.database = await new database().init();
-        if (this.config.online) this.getOnline()
-        else this.getOffline()
+        if (this.config.online) {
+            console.log(`Initializing mojang Panel...`);
+            this.loginMojang();
+            this.loginMicrosoft();
+        } else {
+            console.log(`Initializing offline Panel...`);
+            this.loginOffline();
+        }
     }
 
     getOnline() {
@@ -270,5 +276,6 @@ class Login {
         })
     }
 }
+
 
 export default Login;
