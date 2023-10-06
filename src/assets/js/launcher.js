@@ -155,6 +155,13 @@ class Launcher {
                     this.database.update(refresh_accounts, 'accounts');
                     addAccount(refresh_accounts);
                     if (account.uuid === selectaccount) accountSelect(refresh.uuid)
+                } else if (account.meta.type === "AzAuth") {
+                    if (!account.meta.online) {
+                        console.log(`Initializing Crack account ${account.name}...`);
+                            addAccount(account);
+                            if (account.uuid === selectaccount) accountSelect(account.uuid)
+                            continue;
+                        }
                 } else {
                     this.database.delete(account.uuid, 'accounts');
                     if (account.uuid === selectaccount) this.database.update({ uuid: "1234" }, 'accounts-selected')

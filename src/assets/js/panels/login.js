@@ -162,14 +162,19 @@ class Login {
 
             let account = {
                 access_token: account_connect.access_token,
-                client_token: account_connect.client_token,
+                client_token: account_connect.uuid,
                 uuid: account_connect.uuid,
-                name: account_connect.name,
-                user_properties: account_connect.user_properties,
-                /*meta: {
-                    type: account_connect.meta.type,
-                    offline: account_connect.meta.offline
-                }*/
+                name: account_connect.username,
+                user_properties: '{}',
+                user_info: {
+                    banned: account_connect.banned,
+                    money: account_connect.money,
+                    role: account_connect.role
+                },
+                meta: {
+                    online: false,
+                    type: 'AZauth',
+                }
             }
 
             this.database.add(account, 'accounts')
