@@ -8,6 +8,7 @@
 import { database, changePanel, addAccount, accountSelect } from '../utils.js';
 const { Mojang } = require('minecraft-java-core');
 const { ipcRenderer } = require('electron');
+const { AuthClient } = require('azuriom-auth');
 
 class Login {
     static id = "login";
@@ -46,6 +47,7 @@ class Login {
             changePanel("settings");
         })
     }
+    
 
     loginMicrosoft() {
         let microsoftBtn = document.querySelector('.microsoft')
@@ -146,7 +148,7 @@ class Login {
                 return
             }
 
-            let account_connect = await Mojang.login(mailInput.value, passwordInput.value)
+            let account_connect = await login(mailInput.value, passwordInput.value)
 
             if (account_connect == null || account_connect.error) {
                 console.log(err)
@@ -164,10 +166,10 @@ class Login {
                 uuid: account_connect.uuid,
                 name: account_connect.name,
                 user_properties: account_connect.user_properties,
-                meta: {
+                /*meta: {
                     type: account_connect.meta.type,
                     offline: account_connect.meta.offline
-                }
+                }*/
             }
 
             this.database.add(account, 'accounts')
@@ -234,7 +236,8 @@ class Login {
                 return
             }
 
-            let account_connect = await Mojang.login(mailInput.value, passwordInput.value)
+            //let account_connect = await Mojang.login(mailInput.value, passwordInput.value)
+            let account_connect = await login(mailInput.value, passwordInput.value)
 
             if (account_connect == null || account_connect.error) {
                 console.log(err)
@@ -275,6 +278,25 @@ class Login {
             infoLogin.innerHTML = "&nbsp;";
         })
     }
+    
+}
+
+async function login(email, password) {
+    const client = new AuthClient('https://neiwamc.uk')
+
+    let result = await client.login(email, password)
+
+    if (result.status === 'pending' && result.requires2fa) {
+        const twoFactorCode = '' // IMPORTANT: Replace with the 2FA user temporary code
+
+        result = await client.login(email, password, twoFactorCode)
+    }
+
+    if (result.status !== 'success') {
+        throw 'Unexpected result: ' + JSON.stringify(result)
+    }
+
+    return result
 }
 
 

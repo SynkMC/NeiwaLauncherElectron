@@ -7,8 +7,8 @@ const pkg = require('../package.json');
 const fetch = require("node-fetch")
 let url = pkg.user ? `${pkg.url}/${pkg.user}` : pkg.url
 
-let config = `${url}/launcher/config-launcher/config.json`;
-let news = `${url}/launcher/news-launcher/news.json`;
+let config = `https://cdn.neiwamc.uk/launcher/launcher/config-launcher/config.json`;
+let news = `https://cdn.neiwamc.uk/launcher/launcher/news-launcher/news.json`;
 
 class Config {
     GetConfig() {
