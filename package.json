@@ -38,6 +38,6 @@
     },
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/SynkMC/NeiwaLauncherELC.git"
+        "url": "git+https://github.com/SynkMC/NeiwaLauncherElectron.git"
     }
 }
